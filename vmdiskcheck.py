@@ -1,7 +1,4 @@
 # Script to check if VMware virtual disks are excluded.
-# Rubrik Service Account is required https://<RUBRIK_IP>/web/bin/index.html#/user_management?tab=ServiceAccounts
-# The script will check only local VMs and not replicated or relic VMs: Line #44
-# Only disks where there are exclusions will be returned
 
 import requests
 import json
