@@ -105,7 +105,7 @@ try:
                 if vm_disk_json["excludeFromSnapshots"]:
                     excluded_disk_counter += 1
                     vm_output["excludedDiskCount"] = excluded_disk_counter
-                    vm_output[f"excludedDisk{excluded_disk_counter}"] = each_disk
+                    vm_output[f"excludedDisk{excluded_disk_counter}"] = vm_disk_json
                 else:
                     pass
                     
