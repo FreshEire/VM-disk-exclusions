@@ -7,6 +7,8 @@ import datetime
 import sys
 import getpass
 
+clear_line = "\033[F\033[K"
+
 # NOTE: this disables warnings for insecure SSL/TLS connections to maintain clean terminal output for testing purposes only.
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -54,10 +56,7 @@ try:
     if vm_details_reponse.status_code == 200:
         vm_details_json = json.loads(vm_details_reponse.content.decode('utf-8'))['data']
         
-        # move the cursor to the beginning of the line
-        sys.stdout.write("\033[F")
-        # clear the line
-        sys.stdout.write("\033[K")
+        sys.stdout.write(clear_line)
         
         for each_vm in vm_details_json:    
             
@@ -113,8 +112,7 @@ try:
                 with open(result_text, 'a', encoding='utf-8') as f:
                     f.write(str(vm_output) + "\n")
             
-            sys.stdout.write("\033[F")
-            sys.stdout.write("\033[K")
+            sys.stdout.write(clear_line)
     else:
         print(f"Request failed with status code {vm_details_reponse.status_code}: {vm_details_reponse.text}")
 except Exception as e:
@@ -131,13 +129,11 @@ close_sessions_headers = {
 try:
     close_sessions__response = requests.delete(close_sessions_url, headers=close_sessions_headers, verify=False)
     if close_sessions__response.status_code == 204:
-        sys.stdout.write("\033[F")
-        sys.stdout.write("\033[K")
+        sys.stdout.write(clear_line)
         print("\nSession was closed successfully")
         print(f"Result of the check can be found in file {result_text}\n")
     else:
-        sys.stdout.write("\033[F")
-        sys.stdout.write("\033[K")
+        sys.stdout.write(clear_line)
         print(f"\nRequest failed with status code {close_sessions__response.status_code}")
         print(f"Please try to close the session manually:")
         print(f"curl -s -X DELETE 'https://{rubrik_ip}/api/v1/session/me' -H 'accept: application/json' -H 'Authorization: Bearer {user_token}'")
